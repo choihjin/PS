@@ -1,0 +1,8 @@
+{
+    "C_Cpp.default.compilerPath": "/opt/homebrew/bin/g++-16",
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.intelliSenseMode": "macos-gcc-arm64",
+    "code-runner.executorMap": {
+        "cpp": "cd \"$dir\" && /opt/homebrew/bin/g++-16 -std=c++17 \"$fileName\" -o \"$fileNameWithoutExt\" && \"./$fileNameWithoutExt\""
+    }
+}
