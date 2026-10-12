@@ -12,12 +12,12 @@ string solution(vector<int> numbers) {
     // sorting
     for (const auto& n : numbers) ns.push_back(to_string(n));
     sort(ns.begin(), ns.end(), compare);
-    
+
+    // edge case (all numbers are 0)
+    if (ns[0] == "0") return "0";
+
     // make answer
-    for (int i = 0; i < ns.size(); i++) {
-        if (ans == "0") break;
-        ans += ns[i];
-    }
+    for (const auto& n : ns) ans += n;
 
     return ans;
 }
