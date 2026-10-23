@@ -2,15 +2,12 @@
 
 using namespace std;
 
-int calculate_time(string in, string out) {
-    int in_m = stoi(in.substr(0,2)) * 60 + stoi(in.substr(3));
-    int out_m = stoi(out.substr(0,2)) * 60 + stoi(out.substr(3));
-    
-    return out_m - in_m;
+int to_minutes(string t) {
+    return stoi(t.substr(0,2)) * 60 + stoi(t.substr(3));
 }
 
 int calculate_fee(const vector<int>& fees, int time) {
-    if (time < fees[0]) return fees[1];
+    if (time <= fees[0]) return fees[1];
     else {
         return fees[1] + ((time - fees[0] + fees[2] - 1) / fees[2]) * fees[3];
     }
@@ -19,7 +16,7 @@ int calculate_fee(const vector<int>& fees, int time) {
 vector<int> solution(vector<int> fees, vector<string> records) {
     vector<int> ans;
     map<string, int> cumulative_time;
-    unordered_map<string, string> in_park;
+    unordered_map<string, int> in_park;
     
     // calculate cumulative time
     for (const auto& r : records) {
@@ -28,17 +25,17 @@ vector<int> solution(vector<int> fees, vector<string> records) {
         string inout = r.substr(11);
         
         if (inout == "IN") {
-            in_park[car_num] = time;
+            in_park[car_num] = to_minutes(time);
         }
         else if (inout == "OUT") {
-            cumulative_time[car_num] += calculate_time(in_park[car_num], time);
+            cumulative_time[car_num] += to_minutes(time) - in_park[car_num];
             in_park.erase(car_num);
         }
     }
     
     // in case of not OUT
     for (const auto& i : in_park) {
-        cumulative_time[i.first] += calculate_time(i.second, "23:59");
+        cumulative_time[i.first] += to_minutes("23:59") - i.second;
     }
     
     // calculate parking fee
